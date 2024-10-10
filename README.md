@@ -9,6 +9,8 @@ TypeScript implementation of X3DH, as described in
 
 This is a fork of [soatok/rawr-x3dh](https://github.com/soatok/rawr-x3dh).
 
+## Contents
+
 <!-- toc -->
 
 - [OwO](#owo)
