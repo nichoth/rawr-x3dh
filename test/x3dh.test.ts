@@ -1,38 +1,39 @@
 import { test } from '@bicycle-codes/tapzero'
-import { X3DH } from "../index.js";
-import { Ed25519PublicKey, Ed25519SecretKey, SodiumPlus } from "sodium-plus";
+import { X3DH } from '../index.js'
+import type { Ed25519PublicKey, Ed25519SecretKey } from 'sodium-plus'
+import { SodiumPlus } from 'sodium-plus'
 
 test('X3DH -- generateOneTimeKeys', async (t) => {
-    const sodium = await SodiumPlus.auto();
-    const keypair = await sodium.crypto_sign_keypair();
-    const sk: Ed25519SecretKey = await sodium.crypto_sign_secretkey(keypair);
-    const x3dh = new X3DH();
-    const response = await x3dh.generateOneTimeKeys(sk, 4);
+    const sodium = await SodiumPlus.auto()
+    const keypair = await sodium.crypto_sign_keypair()
+    const sk: Ed25519SecretKey = await sodium.crypto_sign_secretkey(keypair)
+    const x3dh = new X3DH()
+    const response = await x3dh.generateOneTimeKeys(sk, 4)
     t.equal(response.bundle.length, 4, 'should return corrent bundle size')
     t.equal(response.signature.length, 128, 'signature is corrent length')
 })
 
 test('X3DH -- Handshake', async t => {
-    const sodium = await SodiumPlus.auto();
+    const sodium = await SodiumPlus.auto()
 
     // 1. Generate identity keys
-    const fox_keypair = await sodium.crypto_sign_keypair();
-    const fox_sk:Ed25519SecretKey = await sodium.crypto_sign_secretkey(fox_keypair);
-    const fox_pk:Ed25519PublicKey = await sodium.crypto_sign_publickey(fox_keypair);
-    const wolf_keypair = await sodium.crypto_sign_keypair();
-    const wolf_sk:Ed25519SecretKey = await sodium.crypto_sign_secretkey(wolf_keypair);
-    const wolf_pk:Ed25519PublicKey = await sodium.crypto_sign_publickey(wolf_keypair);
+    const fox_keypair = await sodium.crypto_sign_keypair()
+    const fox_sk:Ed25519SecretKey = await sodium.crypto_sign_secretkey(fox_keypair)
+    const fox_pk:Ed25519PublicKey = await sodium.crypto_sign_publickey(fox_keypair)
+    const wolf_keypair = await sodium.crypto_sign_keypair()
+    const wolf_sk:Ed25519SecretKey = await sodium.crypto_sign_secretkey(wolf_keypair)
+    const wolf_pk:Ed25519PublicKey = await sodium.crypto_sign_publickey(wolf_keypair)
 
     // 2. Instantiate object with same config (defaults)
-    const fox_x3dh = new X3DH();
-    const wolf_x3dh = new X3DH();
-    await fox_x3dh.identityKeyManager.setIdentityKeypair(fox_sk, fox_pk);
-    await fox_x3dh.setIdentityString('fox');
+    const fox_x3dh = new X3DH()
+    const wolf_x3dh = new X3DH()
+    await fox_x3dh.identityKeyManager.setIdentityKeypair(fox_sk, fox_pk)
+    await fox_x3dh.setIdentityString('fox')
     t.equal(await fox_x3dh.identityKeyManager.getMyIdentityString(), 'fox',
         'should return the right ID string')
 
-    await wolf_x3dh.identityKeyManager.setIdentityKeypair(wolf_sk, wolf_pk);
-    await wolf_x3dh.setIdentityString('wolf');
+    await wolf_x3dh.identityKeyManager.setIdentityKeypair(wolf_sk, wolf_pk)
+    await wolf_x3dh.setIdentityString('wolf')
 
     t.equal(await wolf_x3dh.identityKeyManager.getMyIdentityString(), 'wolf',
         'wolf should return the right ID string')

@@ -3,6 +3,7 @@
   "version": "0.2.0",
   "main": "index.ts",
   "scripts": {
+    "lint": "eslint \"./**/*.{ts,js}\"",
     "build": "mkdir -p ./dist && rm -rf ./dist/* && npm run build-esm && npm run build-esm:min",
     "build-esm": "esbuild src/*.ts --platform=node --format=esm --metafile=dist/meta.json --keep-names --tsconfig=tsconfig.build.json --outdir=./dist --sourcemap && tsc --emitDeclarationOnly --project tsconfig.build.json --outDir dist",
     "build-esm:min": "esbuild ./src/*.ts --platform=node --keep-names --bundle --tsconfig=tsconfig.build.json --minify --out-extension:.js=.min.js --outdir=./dist --sourcemap",
@@ -11,8 +12,7 @@
     "version": "npm run toc && auto-changelog -p --template keepachangelog --breaking-pattern 'BREAKING CHANGE:' && git add CHANGELOG.md README.md",
     "postversion": "git push --follow-tags && npm publish",
     "prepublishOnly": "npm run build",
-    "test": "npx esbuild --platform=node --format=cjs --bundle ./test/index.ts | node | tap-spec",
-    "//test": "mocha ./test/*.ts"
+    "test": "npx esbuild --platform=node --format=cjs --bundle ./test/index.ts | node | tap-spec"
   },
   "repository": "github:soatok/rawr-x3dh",
   "type": "module",
