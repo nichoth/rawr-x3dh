@@ -1,7 +1,13 @@
 import { test } from '@bicycle-codes/tapzero'
-import { expect } from 'chai';
 import 'mocha';
 
+import {
+    Ed25519PublicKey,
+    Ed25519SecretKey,
+    SodiumPlus,
+    X25519PublicKey,
+    X25519SecretKey
+} from 'sodium-plus';
 import {
     concat,
     generateKeyPair,
@@ -10,14 +16,7 @@ import {
     wipe,
     signBundle,
     verifyBundle
-} from "../src/util";
-import {
-    Ed25519PublicKey,
-    Ed25519SecretKey,
-    SodiumPlus,
-    X25519PublicKey,
-    X25519SecretKey
-} from 'sodium-plus';
+} from "../src/util.js";
 
 test('concat', async (t) => {
     const A = new Uint8Array([0x02, 0x04, 0x08, 0x10]);
