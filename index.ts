@@ -50,19 +50,19 @@ import {
     Ed25519SecretKey,
     SodiumPlus,
     X25519PublicKey, X25519SecretKey
-} from "sodium-plus";
+} from "sodium-plus"
 import {
     KeyDerivationFunction,
     blakeKdf,
     SymmetricEncryptionInterface,
     SymmetricCrypto
-} from "./lib/symmetric";
+} from "./src/symmetric"
 import {
     DefaultSessionKeyManager,
     SessionKeyManagerInterface,
     IdentityKeyManagerInterface,
     DefaultIdentityKeyManager
-} from "./lib/persistence";
+} from "./src/persistence"
 import {
     concat,
     generateKeyPair,
@@ -70,7 +70,7 @@ import {
     signBundle,
     verifyBundle,
     wipe
-} from "./lib/util";
+} from "./src/util"
 
 /**
  * Initial server info.
@@ -123,11 +123,11 @@ type RecipientInitWithSK = {
  * Pluggable X3DH implementation, powered by libsodium.
  */
 export class X3DH {
-    encryptor: SymmetricEncryptionInterface;
-    kdf: KeyDerivationFunction;
-    identityKeyManager: IdentityKeyManagerInterface;
-    sessionKeyManager: SessionKeyManagerInterface;
-    sodium: SodiumPlus;
+    encryptor:SymmetricEncryptionInterface;
+    kdf:KeyDerivationFunction;
+    identityKeyManager:IdentityKeyManagerInterface;
+    sessionKeyManager:SessionKeyManagerInterface;
+    sodium:SodiumPlus;
 
     constructor(
         identityKeyManager?: IdentityKeyManagerInterface,
@@ -470,6 +470,6 @@ export class X3DH {
 }
 
 /* Let's make sure we export the interfaces/etc. we use. */
-export * from "./lib/symmetric";
-export * from "./lib/persistence";
-export * from "./lib/util";
+export * from "./src/symmetric"
+export * from "./src/persistence"
+export * from "./src/util"

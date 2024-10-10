@@ -5,8 +5,9 @@ TypeScript implementation of X3DH, as described in
 
 [![Support me on Patreon](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Fshieldsio-patreon.vercel.app%2Fapi%3Fusername%3Dsoatok%26type%3Dpatrons&style=for-the-badge)](https://patreon.com/soatok)
 
-[![Travis CI](https://travis-ci.org/soatok/rawr-x3dh.svg?branch=master)](https://travis-ci.org/soatok/rawr-x3dh)
-[![npm version](https://img.shields.io/npm/v/rawr-x3dh.svg)](https://npm.im/rawr-x3dh)
+## fork
+
+This is a fork of [soatok/rawr-x3dh](https://github.com/soatok/rawr-x3dh).
 
 ## [OwO](https://soatok.files.wordpress.com/2020/09/soatoktelegrams2020-06.png) What's This?
 
@@ -22,10 +23,8 @@ key exchange, with a few minor tweaks:
 
 ## Installation
 
-First, you'll want to install this library via your package manager.
-
-```terminal
-npm install rawr-x3dh
+```sh
+npm install @nichoth/rawr-x3dh
 ```
 
 If you're working server-side, you'll also want to install [sodium-native](https://www.npmjs.com/package/sodium-native),
@@ -38,30 +37,30 @@ If you're working in a browser or browser extension, don't install sodium-native
 First, you'll want to import the X3DH class from our module.
 
 ```typescript
-import { X3DH } from 'rawr-x3dh';
+import { X3DH } from '@nichoth/rawr-x3dh'
 
-const x3dh = new X3DH();
+const x3dh = new X3DH()
 ```
 
 Note: You can pass some classes to the constructor to replace my algorithm implementations
 for your own.
 
-```typescript
-import { X3DH } from 'rawr-x3dh';
+```ts
+import { X3DH } from '@nichoth/rawr-x3dh'
 
 const x3dh = new X3DH(
     sessionKeyManager, /* SessionKeyManagerInterface */
     identityKeyManager, /* IdentityKeyManagerInterface */
     symmetricEncryptionHandler, /* SymmetricEncryptionInterface */
     keyDerivationFunction /* KeyDerivationFunction */
-);
+)
 ```
 
 Once your X3DH object's instantiated, you will be able to initialize handshakes
 either as a sender or as a recipient. Then you will be able to encrypt additional
 messages on either side, and the encryption key shall ratchet forward.
 
-```typescript
+```ts
 const firstEncrypted = await x3dh.initSend(
     'recipient@server2',
     serverApiCallFunc,
