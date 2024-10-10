@@ -6,10 +6,10 @@ import {
     X25519PublicKey,
     X25519SecretKey
 } from "sodium-plus";
-import {Keypair, wipe} from "./util";
-import { promises as fsp } from 'fs';
-import * as path from 'path';
-import * as os from 'os';
+import { promises as fsp } from 'node:fs';
+import * as path from 'node:path';
+import * as os from 'node:os';
+import { Keypair, wipe } from "./util";
 
 export type IdentityKeyPair = {identitySecret: Ed25519SecretKey, identityPublic: Ed25519PublicKey};
 export type PreKeyPair = {preKeySecret: X25519SecretKey, preKeyPublic: X25519PublicKey};
@@ -51,8 +51,6 @@ export interface SessionKeyManagerInterface {
         Promise<void>;
 }
 
-const sodium = await SodiumPlus.auto()
-
 /**
  * This is a very basic example class for a session key manager.
  *
@@ -60,7 +58,7 @@ const sodium = await SodiumPlus.auto()
  */
 export class DefaultSessionKeyManager implements SessionKeyManagerInterface {
     assocData:Map<string, string>;
-    sodium:SodiumPlus = sodium;
+    sodium?:SodiumPlus;
     sessions:Map<string, SessionKeys>;
 
     constructor(sodium?:SodiumPlus) {
@@ -219,7 +217,7 @@ export class DefaultIdentityKeyManager implements IdentityKeyManagerInterface {
     myIdentityString?:string;
     preKey?:PreKeyPair;
     oneTimeKeys:Map<string, X25519SecretKey>;
-    sodium:SodiumPlus = sodium;
+    sodium?:SodiumPlus;
 
     constructor(sodium?:SodiumPlus, sk?:Ed25519SecretKey, pk?:Ed25519PublicKey) {
         if (sodium) {

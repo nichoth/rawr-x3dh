@@ -119,8 +119,6 @@ type RecipientInitWithSK = {
     OTK?:string
 };
 
-const sodium = await SodiumPlus.auto()
-
 /**
  * Pluggable X3DH implementation, powered by libsodium.
  */
@@ -129,7 +127,7 @@ export class X3DH {
     kdf:KeyDerivationFunction;
     identityKeyManager:IdentityKeyManagerInterface;
     sessionKeyManager:SessionKeyManagerInterface;
-    sodium:SodiumPlus = sodium;
+    sodium?:SodiumPlus;
 
     constructor(
         identityKeyManager?:IdentityKeyManagerInterface,

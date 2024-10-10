@@ -1,3 +1,4 @@
+import { test } from '@bicycle-codes/tapzero'
 import { expect } from 'chai';
 import 'mocha';
 
@@ -9,8 +10,32 @@ import {
     wipe,
     signBundle,
     verifyBundle
-} from "../lib/util";
-import {Ed25519PublicKey, Ed25519SecretKey, SodiumPlus, X25519PublicKey, X25519SecretKey} from "sodium-plus";
+} from "../src/util";
+import {
+    Ed25519PublicKey,
+    Ed25519SecretKey,
+    SodiumPlus,
+    X25519PublicKey,
+    X25519SecretKey
+} from 'sodium-plus';
+
+test('concat', async (t) => {
+    const A = new Uint8Array([0x02, 0x04, 0x08, 0x10]);
+    const B = new Uint8Array([0x03, 0x09, 0x1b, 0x51]);
+    const C = new Uint8Array([0x02, 0x04, 0x08, 0x10, 0x03, 0x09, 0x1b, 0x51]);
+    t.equal(C.join('.'), concat(A, B).join(','))
+    // expect(C.join(',')).to.be.equal(concat(A, B).join(','));
+})
+
+test('generateKeypair', async t => {
+    const kp = await generateKeyPair();
+    t.ok(kp.secretKey instanceof X25519PublicKey, 'should return X25519 private key')
+    t.ok(kp.publicKey instanceof X25519PublicKey, 'should return X25519 public key')
+})
+
+test('generateBundle', async t => {
+
+})
 
 describe('Utilities', () => {
     it('concat', async () => {
