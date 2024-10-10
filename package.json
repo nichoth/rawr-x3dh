@@ -4,8 +4,13 @@
   "main": "index.ts",
   "scripts": {
     "build": "mkdir -p ./dist && rm -rf ./dist/* && npm run build-esm && npm run build-esm:min",
-    "build-esm": "esbuild src/*.ts --format=esm --metafile=dist/meta.json --keep-names --tsconfig=tsconfig.build.json --outdir=./dist --sourcemap && tsc --emitDeclarationOnly --project tsconfig.build.json --outDir dist",
-    "build-esm:min": "esbuild ./src/*.ts --format=esm --keep-names --bundle --tsconfig=tsconfig.build.json --minify --out-extension:.js=.min.js --outdir=./dist --sourcemap",
+    "build-esm": "esbuild src/*.ts --platform=node --format=esm --metafile=dist/meta.json --keep-names --tsconfig=tsconfig.build.json --outdir=./dist --sourcemap && tsc --emitDeclarationOnly --project tsconfig.build.json --outDir dist",
+    "build-esm:min": "esbuild ./src/*.ts --platform=node --format=esm --keep-names --bundle --tsconfig=tsconfig.build.json --minify --out-extension:.js=.min.js --outdir=./dist --sourcemap",
+    "toc": "markdown-toc --maxdepth 3 -i README.md",
+    "preversion": "npm run lint",
+    "version": "npm run toc && auto-changelog -p --template keepachangelog --breaking-pattern 'BREAKING CHANGE:' && git add CHANGELOG.md README.md",
+    "postversion": "git push --follow-tags && npm publish",
+    "prepublishOnly": "npm run build",
     "test": "mocha -r ts-node/register ./tests/*.ts"
   },
   "repository": "github:soatok/rawr-x3dh",
@@ -21,14 +26,13 @@
     "tslib": "^2.0.3"
   },
   "devDependencies": {
-    "@types/chai": "^4.2.14",
-    "@types/mocha": "^8.0.4",
-    "@types/node": "^18.15.0",
-    "chai": "^4.2.0",
-    "chai-as-promised": "^7.1.1",
+    "@types/chai": "^5.0.0",
+    "@types/mocha": "^10.0.9",
+    "@types/node": "^22.7.5",
+    "chai": "^5.1.1",
+    "chai-as-promised": "^8.0.0",
     "esbuild": "^0.24.0",
-    "mocha": "^8.2.1",
-    "ts-node": "^10.9.2",
+    "mocha": "^10.7.3",
     "typescript": "^5.6.3"
   },
   "author": "Soatok Dreamseeker",

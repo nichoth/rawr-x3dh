@@ -79,45 +79,47 @@ import {
  * the X3DH handshake from a sender's side.
  */
 export type InitServerInfo = {
-    IdentityKey: string,
-    SignedPreKey: {
-        Signature: string,
-        PreKey: string
+    IdentityKey:string,
+    SignedPreKey:{
+        Signature:string,
+        PreKey:string
     },
-    OneTimeKey?: string
+    OneTimeKey?:string
 };
 
 /**
  * Initial information about a sender
  */
 export type InitSenderInfo = {
-    Sender: string,
-    IdentityKey: string,
-    EphemeralKey: string,
-    OneTimeKey?: string,
-    CipherText: string
+    Sender:string,
+    IdentityKey:string,
+    EphemeralKey:string,
+    OneTimeKey?:string,
+    CipherText:string
 };
 
 /**
  * Send a network request to the server to obtain the public keys needed
  * to complete the sender's handshake.
  */
-export type InitClientFunction = (id: string) => Promise<InitServerInfo>;
+export type InitClientFunction = (id:string)=>Promise<InitServerInfo>;
 
 /**
  * Signed key bundle.
  */
-export type SignedBundle = {signature: string, bundle: string[]};
+export type SignedBundle = { signature:string, bundle:string[] };
 
 /**
  * Initialization information for receiving a handshake message.
  */
 type RecipientInitWithSK = {
-    IK: Ed25519PublicKey,
-    EK: X25519PublicKey,
-    SK: CryptographyKey,
-    OTK?: string
+    IK:Ed25519PublicKey,
+    EK:X25519PublicKey,
+    SK:CryptographyKey,
+    OTK?:string
 };
+
+const sodium = await SodiumPlus.auto()
 
 /**
  * Pluggable X3DH implementation, powered by libsodium.
@@ -127,13 +129,13 @@ export class X3DH {
     kdf:KeyDerivationFunction;
     identityKeyManager:IdentityKeyManagerInterface;
     sessionKeyManager:SessionKeyManagerInterface;
-    sodium:SodiumPlus;
+    sodium:SodiumPlus = sodium;
 
     constructor(
-        identityKeyManager?: IdentityKeyManagerInterface,
-        sessionKeyManager?: SessionKeyManagerInterface,
-        encryptor?: SymmetricEncryptionInterface,
-        kdf?: KeyDerivationFunction
+        identityKeyManager?:IdentityKeyManagerInterface,
+        sessionKeyManager?:SessionKeyManagerInterface,
+        encryptor?:SymmetricEncryptionInterface,
+        kdf?:KeyDerivationFunction
     ) {
         if (!sessionKeyManager) {
             sessionKeyManager = new DefaultSessionKeyManager();
@@ -156,7 +158,7 @@ export class X3DH {
     /**
      * @returns {SodiumPlus}
      */
-    async getSodium(): Promise<SodiumPlus> {
+    async getSodium ():Promise<SodiumPlus> {
         if (!this.sodium) {
             this.sodium = await SodiumPlus.auto();
         }
@@ -172,9 +174,9 @@ export class X3DH {
      * @param {number} numKeys
      */
     async generateOneTimeKeys(
-        signingKey: Ed25519SecretKey,
-        numKeys: number = 100
-    ): Promise<SignedBundle> {
+        signingKey:Ed25519SecretKey,
+        numKeys:number = 100
+    ):Promise<SignedBundle> {
         const sodium = await this.getSodium();
         const bundle = await generateBundle(numKeys);
         const publicKeys = bundle.map(x => x.publicKey);
@@ -200,9 +202,9 @@ export class X3DH {
      * @param {Ed25519SecretKey} senderKey
      */
     async initSenderGetSK(
-        res: InitServerInfo,
-        senderKey: Ed25519SecretKey
-    ): Promise<RecipientInitWithSK> {
+        res:InitServerInfo,
+        senderKey:Ed25519SecretKey
+    ):Promise<RecipientInitWithSK> {
         const sodium = await this.getSodium();
         const identityKey = new Ed25519PublicKey(
             await sodium.sodium_hex2bin(res.IdentityKey)
@@ -281,10 +283,10 @@ export class X3DH {
      * @param {string|Buffer} message
      */
     async initSend(
-        recipientIdentity: string,
-        getServerResponse: InitClientFunction,
-        message: string|Buffer
-    ): Promise<InitSenderInfo> {
+        recipientIdentity:string,
+        getServerResponse:InitClientFunction,
+        message:string|Buffer
+    ):Promise<InitSenderInfo> {
         const sodium = await this.getSodium();
 
         // Get the identity key for the sender:
@@ -328,9 +330,9 @@ export class X3DH {
      * @param preKeySecret
      */
     async initRecvGetSk(
-        req: InitSenderInfo,
-        identitySecret: Ed25519SecretKey,
-        preKeySecret: X25519SecretKey
+        req:InitSenderInfo,
+        identitySecret:Ed25519SecretKey,
+        preKeySecret:X25519SecretKey
     ) {
         const sodium = await this.getSodium();
 
@@ -399,7 +401,7 @@ export class X3DH {
      * @param {InitSenderInfo} req
      * @returns {(string|Buffer)[]}
      */
-    async initRecv(req: InitSenderInfo): Promise<(string|Buffer)[]> {
+    async initRecv(req:InitSenderInfo):Promise<(string|Buffer)[]> {
         const sodium = await this.getSodium();
         const {identitySecret, identityPublic} = await this.identityKeyManager.getIdentityKeypair();
         const {preKeySecret} = await this.identityKeyManager.getPreKeypair();
@@ -436,7 +438,7 @@ export class X3DH {
      * @param {string|Buffer} message
      * @returns {string}
      */
-    async encryptNext(recipient: string, message: string|Buffer): Promise<string> {
+    async encryptNext(recipient:string, message:string|Buffer):Promise<string> {
         return this.encryptor.encrypt(
             message,
             await this.sessionKeyManager.getEncryptionKey(recipient, false),
@@ -451,7 +453,7 @@ export class X3DH {
      * @param {string} encrypted
      * @returns {string|Buffer}
      */
-    async decryptNext(sender: string, encrypted: string) {
+    async decryptNext(sender:string, encrypted:string):Promise<string|Buffer> {
         return this.encryptor.decrypt(
             encrypted,
             await this.sessionKeyManager.getEncryptionKey(sender, true),
@@ -464,12 +466,12 @@ export class X3DH {
      *
      * @param {string} id
      */
-    async setIdentityString(id: string): Promise<void> {
+    async setIdentityString(id:string):Promise<void> {
         return this.identityKeyManager.setMyIdentityString(id);
     }
 }
 
-/* Let's make sure we export the interfaces/etc. we use. */
+/* Let's make sure we export the interfaces/etc we use. */
 export * from "./src/symmetric"
 export * from "./src/persistence"
 export * from "./src/util"

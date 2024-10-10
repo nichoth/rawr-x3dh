@@ -51,17 +51,19 @@ export interface SessionKeyManagerInterface {
         Promise<void>;
 }
 
+const sodium = await SodiumPlus.auto()
+
 /**
  * This is a very basic example class for a session key manager.
  *
  * If you do not specify one, the X3DH library will use this.
  */
 export class DefaultSessionKeyManager implements SessionKeyManagerInterface {
-    assocData: Map<string, string>;
-    sodium: SodiumPlus;
-    sessions: Map<string, SessionKeys>;
+    assocData:Map<string, string>;
+    sodium:SodiumPlus = sodium;
+    sessions:Map<string, SessionKeys>;
 
-    constructor(sodium?: SodiumPlus) {
+    constructor(sodium?:SodiumPlus) {
         if (sodium) {
             this.sodium = sodium;
         } else {
@@ -87,7 +89,7 @@ export class DefaultSessionKeyManager implements SessionKeyManagerInterface {
     }
 
     async listSessionIds(): Promise<string[]> {
-        const ids = [];
+        const ids:string[] = [];
         for (let i in this.sessions) {
             ids.push(i);
         }
@@ -212,27 +214,28 @@ export class DefaultSessionKeyManager implements SessionKeyManagerInterface {
  * You almost certainly want to build your own.
  */
 export class DefaultIdentityKeyManager implements IdentityKeyManagerInterface {
-    identitySecret?: Ed25519SecretKey;
-    identityPublic?: Ed25519PublicKey;
-    myIdentityString?: string;
-    preKey?: PreKeyPair;
-    oneTimeKeys: Map<string, X25519SecretKey>;
-    sodium: SodiumPlus;
+    identitySecret?:Ed25519SecretKey;
+    identityPublic?:Ed25519PublicKey;
+    myIdentityString?:string;
+    preKey?:PreKeyPair;
+    oneTimeKeys:Map<string, X25519SecretKey>;
+    sodium:SodiumPlus = sodium;
 
-    constructor(sodium?: SodiumPlus, sk?: Ed25519SecretKey, pk?: Ed25519PublicKey) {
+    constructor(sodium?:SodiumPlus, sk?:Ed25519SecretKey, pk?:Ed25519PublicKey) {
         if (sodium) {
             this.sodium = sodium;
         } else {
             // Just do this up-front.
-            this.getSodium().then(() => {
-            });
+            this.getSodium()
         }
+
         if (sk) {
             this.identitySecret = sk;
             if (pk) {
                 this.identityPublic = pk;
             }
         }
+
         this.oneTimeKeys = new Map<string, X25519SecretKey>();
     }
 
@@ -241,7 +244,7 @@ export class DefaultIdentityKeyManager implements IdentityKeyManagerInterface {
      *
      * @returns {SodiumPlus}
      */
-    async getSodium(): Promise<SodiumPlus> {
+    async getSodium():Promise<SodiumPlus> {
         if (!this.sodium) {
             this.sodium = await SodiumPlus.auto();
         }
@@ -305,11 +308,14 @@ export class DefaultIdentityKeyManager implements IdentityKeyManagerInterface {
             await this.setIdentityKeypair(keypair.identitySecret, keypair.identityPublic);
             return keypair;
         }
-        return {identitySecret: this.identitySecret, identityPublic: this.identityPublic};
+        return {
+            identitySecret: this.identitySecret,
+            identityPublic: this.identityPublic!
+        };
     }
 
-    async getMyIdentityString(): Promise<string> {
-        return this.myIdentityString;
+    async getMyIdentityString():Promise<string> {
+        return this.myIdentityString!;
     }
 
     /**

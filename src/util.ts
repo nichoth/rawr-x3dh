@@ -35,7 +35,7 @@ export function concat(...args: Uint8Array[]): Uint8Array {
  *
  * @returns {Keypair}
  */
-export async function generateKeyPair(): Promise<Keypair> {
+export async function generateKeyPair():Promise<Keypair> {
     if (!sodium) sodium = await SodiumPlus.auto();
     const kp = await sodium.crypto_box_keypair();
     return {
@@ -51,7 +51,7 @@ export async function generateKeyPair(): Promise<Keypair> {
  * @returns {Keypair[]}
  */
 export async function generateBundle(preKeyCount: number = 100): Promise<Keypair[]> {
-    const bundle = [];
+    const bundle:Keypair[] = [];
     for (let i = 0; i < preKeyCount; i++) {
         bundle.push(await generateKeyPair());
     }
