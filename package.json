@@ -10,7 +10,8 @@
     "toc": "markdown-toc --maxdepth 3 -i README.md",
     "test": "npx esbuild --platform=node --format=cjs --bundle ./test/index.ts | node | tap-spec",
     "preversion": "npm run lint",
-    "version": "npm run toc && auto-changelog -p --template keepachangelog --breaking-pattern 'BREAKING CHANGE:' && git add CHANGELOG.md README.md",
+    "changelog": "auto-changelog -p --template keepachangelog --breaking-pattern 'BREAKING CHANGE:'",
+    "version": "npm run toc && npm run changelog && git add CHANGELOG.md README.md",
     "postversion": "git push --follow-tags && npm publish",
     "prepublishOnly": "npm run build"
   },
