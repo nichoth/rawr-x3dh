@@ -8,11 +8,11 @@
     "build-esm": "esbuild src/*.ts --platform=node --format=esm --metafile=dist/meta.json --keep-names --tsconfig=tsconfig.build.json --outdir=./dist --sourcemap && tsc --emitDeclarationOnly --project tsconfig.build.json --outDir dist",
     "build-esm:min": "esbuild ./src/*.ts --platform=node --keep-names --bundle --tsconfig=tsconfig.build.json --minify --out-extension:.js=.min.js --outdir=./dist --sourcemap",
     "toc": "markdown-toc --maxdepth 3 -i README.md",
+    "test": "npx esbuild --platform=node --format=cjs --bundle ./test/index.ts | node | tap-spec",
     "preversion": "npm run lint",
     "version": "npm run toc && auto-changelog -p --template keepachangelog --breaking-pattern 'BREAKING CHANGE:' && git add CHANGELOG.md README.md",
     "postversion": "git push --follow-tags && npm publish",
-    "prepublishOnly": "npm run build",
-    "test": "npx esbuild --platform=node --format=cjs --bundle ./test/index.ts | node | tap-spec"
+    "prepublishOnly": "npm run build"
   },
   "repository": "github:soatok/rawr-x3dh",
   "type": "module",
@@ -27,17 +27,14 @@
   },
   "devDependencies": {
     "@bicycle-codes/tapzero": "^0.10.3",
-    "@types/chai": "^5.0.0",
-    "@types/mocha": "^10.0.9",
     "@types/node": "^22.7.5",
     "@typescript-eslint/eslint-plugin": "^8.8.1",
     "@typescript-eslint/parser": "^8.8.1",
-    "chai": "^5.1.1",
-    "chai-as-promised": "^8.0.0",
+    "auto-changelog": "^2.5.0",
     "esbuild": "^0.24.0",
     "eslint": "^8.57.1",
     "eslint-config-standard": "^17.1.0",
-    "mocha": "^10.7.3",
+    "markdown-toc": "^1.2.0",
     "tap-spec": "^5.0.0",
     "typescript": "^5.6.3"
   },

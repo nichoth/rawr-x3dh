@@ -1,6 +1,4 @@
 import { test } from '@bicycle-codes/tapzero'
-import 'mocha'
-
 import type {
     Ed25519PublicKey,
     Ed25519SecretKey
