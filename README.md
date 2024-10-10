@@ -9,6 +9,19 @@ TypeScript implementation of X3DH, as described in
 
 This is a fork of [soatok/rawr-x3dh](https://github.com/soatok/rawr-x3dh).
 
+<!-- toc -->
+
+- [OwO](#owo)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Should I Use This?](#should-i-use-this)
+- [Questions and Answers](#questions-and-answers)
+  * [Any Interest in Porting This to $LANG?](#any-interest-in-porting-this-to-lang)
+  * [Why "Rawr"?](#why-rawr)
+  * [Is this a furry thing?](#is-this-a-furry-thing)
+
+<!-- tocstop -->
+
 ## [OwO](https://soatok.files.wordpress.com/2020/09/soatoktelegrams2020-06.png) What's This?
 
 This library implements the [Extended Triple Diffie-Hellman](https://signal.org/docs/specifications/x3dh/)
