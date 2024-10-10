@@ -10,7 +10,7 @@
 TypeScript implementation of X3DH, as described in
 ***[Going Bark: A Furry's Guide to End-to-End Encryption](https://soatok.blog/2020/11/14/going-bark-a-furrys-guide-to-end-to-end-encryption/)***.
 
-[Support `soatok` on Patreon](https://patreon.com/soatok)
+**[Support `soatok` on Patreon](https://patreon.com/soatok)**
 
 ## fork
 
