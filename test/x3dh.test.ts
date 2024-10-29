@@ -10,7 +10,7 @@ test('X3DH -- generateOneTimeKeys', async (t) => {
     const x3dh = new X3DH()
     const response = await x3dh.generateOneTimeKeys(sk, 4)
     t.equal(response.bundle.length, 4, 'should return corrent bundle size')
-    t.equal(response.signature.length, 128, 'signature is corrent length')
+    t.equal(response.signature.length, 128, 'signature is correct length')
 })
 
 test('X3DH -- Handshake', async t => {

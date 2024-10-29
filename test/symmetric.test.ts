@@ -6,7 +6,9 @@ let sodium
 
 test('Symmetric Functions -- Key derivation', async t => {
     if (!sodium) sodium = await SodiumPlus.auto()
-    const testInput = new CryptographyKey(await sodium.crypto_generichash('Dhole fursonas rule <3'))
+    const testInput = new CryptographyKey(
+        await sodium.crypto_generichash('Dhole fursonas rule <3')
+    )
     const { encKey, commitment } = await deriveKeys(testInput, Buffer.alloc(24))
     const test1: string = await sodium.sodium_bin2hex(encKey.getBuffer())
     const test2: string = await sodium.sodium_bin2hex(commitment)
@@ -21,7 +23,8 @@ test('Symmetric Encryption / Decryption', async t => {
     if (!sodium) sodium = await SodiumPlus.auto()
     const key = await sodium.crypto_secretbox_keygen()
 
-    const plaintext = "Rawr x3 nuzzles how are you *pounces on you* you're so warm o3o *notices you have a bulge*"
+    const plaintext = "Rawr x3 nuzzles how are you *pounces on you* you're so" +
+        ' warm o3o *notices you have a bulge*'
     const encrypted = await encryptData(plaintext, key)
     t.ok(!(encrypted === plaintext), 'Encrypted text should not equal plaintext')
     t.equal(encrypted[0], 'v', 'First letter should be "v')

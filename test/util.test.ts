@@ -35,8 +35,10 @@ test('generateBundle', async t => {
     const bundle = await generateBundle(5)
     t.equal(bundle.length, 5, 'should have 5 things')
     for (let i = 0; i < 5; i++) {
-        t.ok(bundle[i].secretKey instanceof X25519SecretKey)
-        t.ok(bundle[i].publicKey instanceof X25519PublicKey)
+        t.ok(bundle[i].secretKey instanceof X25519SecretKey,
+            'each item should have a secret key')
+        t.ok(bundle[i].publicKey instanceof X25519PublicKey,
+            'each item should have a publicKey')
     }
 })
 
@@ -90,9 +92,11 @@ test('wipe', async t => {
     const sodium = await SodiumPlus.auto()
     const buf = await sodium.crypto_secretbox_keygen()
     t.ok(
-        !((await sodium.sodium_bin2hex(buf.getBuffer())) ===
-        '0000000000000000000000000000000000000000000000000000000000000000'),
-        'should not be zeros'
+        !(
+            (await sodium.sodium_bin2hex(buf.getBuffer())) ===
+            '0000000000000000000000000000000000000000000000000000000000000000'
+        ),
+        'buffer should not start as zeros'
     )
 
     await wipe(buf)
