@@ -44,9 +44,7 @@
  * .....````````.``..................................
  *
  */
-import type {
-    Ed25519SecretKey, X25519SecretKey
-} from 'sodium-plus'
+import type { Ed25519SecretKey, X25519SecretKey } from 'sodium-plus'
 import {
     CryptographyKey,
     Ed25519PublicKey,
@@ -57,10 +55,7 @@ import type {
     KeyDerivationFunction,
     SymmetricEncryptionInterface
 } from './src/symmetric'
-import {
-    blakeKdf,
-    SymmetricCrypto
-} from './src/symmetric'
+import { blakeKdf, SymmetricCrypto } from './src/symmetric'
 import type {
     SessionKeyManagerInterface,
     IdentityKeyManagerInterface
