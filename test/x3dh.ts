@@ -19,11 +19,11 @@ test('x3dh Handshake with one-time keys', async t => {
 
     // 1. Generate identity keys
     const fox_keypair = await sodium.crypto_sign_keypair()
-    const fox_sk: Ed25519SecretKey = await sodium.crypto_sign_secretkey(fox_keypair)
-    const fox_pk: Ed25519PublicKey = await sodium.crypto_sign_publickey(fox_keypair)
+    const fox_sk:Ed25519SecretKey = await sodium.crypto_sign_secretkey(fox_keypair)
+    const fox_pk:Ed25519PublicKey = await sodium.crypto_sign_publickey(fox_keypair)
     const wolf_keypair = await sodium.crypto_sign_keypair()
-    const wolf_sk: Ed25519SecretKey = await sodium.crypto_sign_secretkey(wolf_keypair)
-    const wolf_pk: Ed25519PublicKey = await sodium.crypto_sign_publickey(wolf_keypair)
+    const wolf_sk:Ed25519SecretKey = await sodium.crypto_sign_secretkey(wolf_keypair)
+    const wolf_pk:Ed25519PublicKey = await sodium.crypto_sign_publickey(wolf_keypair)
 
     // 2. Instantiate object with same config (defaults)
     const fox_x3dh = new X3DH()

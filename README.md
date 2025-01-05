@@ -12,6 +12,8 @@ TypeScript implementation of X3DH, as described in
 
 **[Support `soatok` on Patreon](https://patreon.com/soatok)**
 
+The install size is kind of large because this package includes a pre-bundled [`sodium`](https://www.npmjs.com/package/sodium-plus).
+
 ## fork
 
 This is a fork of [soatok/rawr-x3dh](https://github.com/soatok/rawr-x3dh).
