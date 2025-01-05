@@ -4,9 +4,11 @@ import { encryptData, decryptData, deriveKeys } from '../src/symmetric'
 
 let sodium
 
-test('Symmetric Functions -- Key derivation', async t => {
+test('Key derivation', async t => {
     if (!sodium) sodium = await SodiumPlus.auto()
-    const testInput = new CryptographyKey(await sodium.crypto_generichash('Dhole fursonas rule <3'))
+    const testInput = new CryptographyKey(
+        await sodium.crypto_generichash('Dhole fursonas rule <3')
+    )
     const { encKey, commitment } = await deriveKeys(testInput, Buffer.alloc(24))
     const test1: string = await sodium.sodium_bin2hex(encKey.getBuffer())
     const test2: string = await sodium.sodium_bin2hex(commitment)
