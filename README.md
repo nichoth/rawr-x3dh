@@ -1,9 +1,9 @@
-# ![Rawr X3DH](.github/RawrX3DH-Github.png)
-![tests](https://github.com/nichoth/rawr-x3dh/actions/workflows/nodejs.yml/badge.svg?style=flat-square)
-[![types](https://img.shields.io/npm/types/@nichoth/rawr-x3dh?style=flat-square)](README.md)
+# x3dh
+![tests](https://github.com/bicycle-codes/x3dh/actions/workflows/nodejs.yml/badge.svg?style=flat-square)
+[![types](https://img.shields.io/npm/types/@bicycle-codes/x3dh?style=flat-square)](README.md)
 [![module](https://img.shields.io/badge/module-ESM-blue?style=flat-square)](README.md)
 [![semantic versioning](https://img.shields.io/badge/semver-2.0.0-blue?logo=semver&style=flat-square)](https://semver.org/)
-[![install size](https://flat.badgen.net/packagephobia/install/@nichoth/rawr-x3dh)](https://packagephobia.com/result?p=@nichoth/rawr-x3dh)
+[![install size](https://flat.badgen.net/packagephobia/install/@bicycle-codes/x3dh)](https://packagephobia.com/result?p=@bicycle-codes/x3dh)
 [![License: ISC](https://img.shields.io/badge/License-ISC-brightgreen.svg?style=flat-square)](https://opensource.org/licenses/ISC)
 
 
@@ -26,12 +26,10 @@ This is a fork of [soatok/rawr-x3dh](https://github.com/soatok/rawr-x3dh).
 - [Should I Use This?](#should-i-use-this)
 - [Questions and Answers](#questions-and-answers)
   * [Any Interest in Porting This to $LANG?](#any-interest-in-porting-this-to-lang)
-  * [Why "Rawr"?](#why-rawr)
-  * [Is this a furry thing?](#is-this-a-furry-thing)
 
 <!-- tocstop -->
 
-## [OwO](https://soatok.files.wordpress.com/2020/09/soatoktelegrams2020-06.png) What's This?
+## What's This?
 
 This library implements the [Extended Triple Diffie-Hellman](https://signal.org/docs/specifications/x3dh/)
 key exchange, with a few minor tweaks:
@@ -46,7 +44,7 @@ key exchange, with a few minor tweaks:
 ## Installation
 
 ```sh
-npm install @nichoth/rawr-x3dh
+npm i -S @bicycle-codes/x3dh
 ```
 
 If you're working server-side, you'll also want to install [sodium-native](https://www.npmjs.com/package/sodium-native),
@@ -58,8 +56,8 @@ If you're working in a browser or browser extension, don't install sodium-native
 
 First, you'll want to import the X3DH class from our module.
 
-```typescript
-import { X3DH } from '@nichoth/rawr-x3dh'
+```ts
+import { X3DH } from '@bicycle-codes/x3dh'
 
 const x3dh = new X3DH()
 ```
@@ -68,7 +66,7 @@ Note: You can pass some classes to the constructor to replace my algorithm imple
 for your own.
 
 ```ts
-import { X3DH } from '@nichoth/rawr-x3dh'
+import { X3DH } from '@bicycle-codes/x3dh'
 
 const x3dh = new X3DH(
     sessionKeyManager, /* SessionKeyManagerInterface */
@@ -98,7 +96,7 @@ See the definition of the `InitClientFunction` type in `lib/index.ts`.
 Once this has completed, you can call `encryptNext()` multiple times to append messages
 to send.
 
-```typescript
+```ts
 const nextEncrypted = await x3dh.encryptNext(
     'recipient@server2',
     'This is a follow-up message UwU'
@@ -107,7 +105,7 @@ const nextEncrypted = await x3dh.encryptNext(
 
 On the other side, your communication partner will use the following feature.
 
-```typescript
+```ts
 const [sender, firstMessage] = await x3dh.initRecv(senderInfo);
 const nextMessage = await x3dh.decryptNext(sender, nextEncrypted);
 ```
@@ -127,54 +125,3 @@ The API can break at any moment until that happens (especially if
 I decide I hate the default key management classes I wrote).
 
 However, feel free to test and play with it.
-
-## Questions and Answers
-
-### Any Interest in Porting This to $LANG?
-
-I'd love to port this to more languages! That will also allow me to write end-to-end integration tests.
-
-As long as there's a good [libsodium implementation](https://libsodium.gitbook.io/doc/bindings_for_other_languages),
-it should be doable.
-
-However, I don't have *nearly* as much free time as I'd like, so I can't commit to
-building or supporting multiple implementations right now.
-
-Conversely, if you've ported this to another language, let me know and I'll maintain
-a list here:
-
-* (Currently, none.)
-
-### Why "Rawr"?
-
-The canonical abbreviation for the eXtended 3-way Diffie Hellman
-deniable authenticated key exchange is X3DH.
-
-There is a [cursed furry copypasta/meme](https://knowyourmeme.com/memes/notices-bulge-owo-whats-this) 
-that begins with "rawr x3". The juxtaposition of "x3" and "X3DH" is too perfect
-an opportunity for dumb jokes to pass up.
-
-### Is this a furry thing?
-
-[![You betcha!](https://soatok.files.wordpress.com/2020/08/soatoktelegrams2020-03.png)](https://soatok.blog/2020/11/14/going-bark-a-furrys-guide-to-end-to-end-encryption/)
-
-And remember: It's not *furry trash*, it's *yiff-raff*.
-
-#### Why? Just, Why?
-
-I've written a lot of words to answer this line of questioning already on [my blog](https://soatok.blog).
-
-You will probably find the answer you're seeking [here](https://soatok.blog/2020/07/09/a-word-on-anti-furry-sentiments-in-the-tech-community/)
-or [here](https://soatok.blog/2020/10/23/solving-for-why-furry-blogging-about-cryptography/).
-
-![Comic by loviesophiee](https://soatok.files.wordpress.com/2020/07/increase-the-thing.png)
-
-#### This is Unprofessional
-
-Folks often say there's an XKCD for Everything! And thus:
-
-[![XKCD](https://imgs.xkcd.com/comics/dreams.png)](https://xkcd.com/137/)
-
-#### Who Made That Awesome Project Logo?
-
-[Sophie](https://twitter.com/loviesophiee) made it.
