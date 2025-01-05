@@ -20,12 +20,10 @@ This is a fork of [soatok/rawr-x3dh](https://github.com/soatok/rawr-x3dh).
 
 <!-- toc -->
 
-- [OwO](#owo)
+- [What's This?](#whats-this)
 - [Installation](#installation)
 - [Usage](#usage)
 - [Should I Use This?](#should-i-use-this)
-- [Questions and Answers](#questions-and-answers)
-  * [Any Interest in Porting This to $LANG?](#any-interest-in-porting-this-to-lang)
 
 <!-- tocstop -->
 
