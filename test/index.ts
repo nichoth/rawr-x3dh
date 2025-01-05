@@ -1,3 +1,3 @@
-import './x3dh.test.js'
-import './symmetric.test.js'
-import './util.test.js'
+import './x3dh.js'
+import './symmetric.js'
+import './util.js'

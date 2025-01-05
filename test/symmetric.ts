@@ -1,4 +1,4 @@
-import { test } from '@bicycle-codes/tapzero'
+import { test } from '@substrate-system/tapzero'
 import { CryptographyKey, SodiumPlus } from 'sodium-plus'
 import { encryptData, decryptData, deriveKeys } from '../src/symmetric'
 

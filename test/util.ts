@@ -1,4 +1,4 @@
-import { test } from '@bicycle-codes/tapzero'
+import { test } from '@substrate-system/tapzero'
 import type {
     Ed25519PublicKey,
     Ed25519SecretKey
@@ -78,7 +78,10 @@ test('signBundle / VerifyBundle', async t => {
 
     const signature = await signBundle(sk, bundle)
 
-    t.ok((verifyBundle(pk, bundle, signature)), 'should be valid a valid signature')
+    t.ok(
+        (verifyBundle(pk, bundle, signature)),
+        'should be valid a valid signature'
+    )
     t.ok(!(await verifyBundle(pk, bundle.slice(1), signature)),
         'should not verify an invalid bundle')
 
@@ -89,14 +92,16 @@ test('signBundle / VerifyBundle', async t => {
 test('wipe', async t => {
     const sodium = await SodiumPlus.auto()
     const buf = await sodium.crypto_secretbox_keygen()
-    t.ok(
-        !((await sodium.sodium_bin2hex(buf.getBuffer())) ===
-        '0000000000000000000000000000000000000000000000000000000000000000'),
-        'should not be zeros'
+    t.notEqual(
+        await sodium.sodium_bin2hex(buf.getBuffer()),
+        '0000000000000000000000000000000000000000000000000000000000000000'
     )
 
     await wipe(buf)
 
-    t.equal('0000000000000000000000000000000000000000000000000000000000000000',
-        await sodium.sodium_bin2hex(buf.getBuffer()), 'should wipe the buffer')
+    t.equal(
+        await sodium.sodium_bin2hex(buf.getBuffer()),
+        '0000000000000000000000000000000000000000000000000000000000000000',
+        'should zero the buffer'
+    )
 })

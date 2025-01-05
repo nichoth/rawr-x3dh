@@ -1,4 +1,4 @@
-import { test } from '@bicycle-codes/tapzero'
+import { test } from '@substrate-system/tapzero'
 import { X3DH } from '../index.js'
 import type { Ed25519PublicKey, Ed25519SecretKey } from 'sodium-plus'
 import { SodiumPlus } from 'sodium-plus'
@@ -6,7 +6,7 @@ import { SodiumPlus } from 'sodium-plus'
 test('X3DH -- generateOneTimeKeys', async (t) => {
     const sodium = await SodiumPlus.auto()
     const keypair = await sodium.crypto_sign_keypair()
-    const sk: Ed25519SecretKey = await sodium.crypto_sign_secretkey(keypair)
+    const sk:Ed25519SecretKey = await sodium.crypto_sign_secretkey(keypair)
     const x3dh = new X3DH()
     const response = await x3dh.generateOneTimeKeys(sk, 4)
     t.equal(response.bundle.length, 4, 'should return corrent bundle size')
